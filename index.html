@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Educatr Directory</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316181d'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='36' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #f1f2f4;
+    --card: #ffffff;
+    --card-border: #e6e7ea;
+    --ink: #16181d;
+    --ink-soft: #6b7280;
+    --ink-faint: #9ca3af;
+    --accent: #6366f1;
+    --accent-soft: #eef0ff;
+    --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+    --shadow-lg: 0 4px 12px rgba(16, 24, 40, 0.08), 0 2px 4px rgba(16, 24, 40, 0.04);
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- LOGIN SCREEN ---------- */
+
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 40px 32px 32px;
+    text-align: center;
+  }
+
+  .login-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #16181d;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 0 auto 20px;
+  }
+
+  .login-card h1 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .login-card p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 26px;
+  }
+
+  #password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #password-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: #fafafb;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    text-align: center;
+    letter-spacing: 0.02em;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  #password-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    background: #fff;
+  }
+
+  #unlock-btn {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.05s ease;
+  }
+
+  #unlock-btn:hover { background: #2b2e36; }
+  #unlock-btn:active { transform: scale(0.99); }
+
+  #login-error {
+    font-size: 12.5px;
+    color: #d33d3d;
+    min-height: 16px;
+    margin-top: 2px;
+    visibility: hidden;
+  }
+
+  #login-error.show { visibility: visible; }
+
+  /* ---------- DIRECTORY SCREEN ---------- */
+
+  #directory-screen {
+    display: none;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #16181d;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .brand-name {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  .top-bar-right {
+    text-align: right;
+  }
+
+  .eyebrow {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .logout-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .logout-link:hover { color: var(--ink-soft); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+    .top-bar { flex-direction: column; gap: 18px; }
+    .top-bar-right { text-align: left; }
+  }
+
+  .dir-card {
+    position: relative;
+    border-radius: 18px;
+    border: 1px solid #e0e1e5;
+    background: linear-gradient(165deg, #eef0f2 0%, #e2e4e8 100%);
+    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08), 0 2px 6px rgba(16, 24, 40, 0.05);
+    padding: 28px 26px 24px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .dir-card.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(16, 24, 40, 0.12), 0 4px 8px rgba(16, 24, 40, 0.06);
+    border-color: #d2d4d9;
+    background: linear-gradient(165deg, #f1f3f5 0%, #e6e8eb 100%);
+  }
+
+  .dir-card.disabled {
+    cursor: default;
+    opacity: 0.78;
+    box-shadow: 0 6px 16px rgba(16, 24, 40, 0.06), 0 1px 4px rgba(16, 24, 40, 0.04);
+  }
+
+  .dir-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: auto;
+  }
+
+  .dir-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 70%;
+    line-height: 1.25;
+  }
+
+  .dir-card-icon {
+    flex: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .dir-card.disabled .dir-card-icon {
+    background: #eceef1;
+    color: var(--ink-faint);
+  }
+
+  .dir-card-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .dir-card-sub {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-top: 18px;
+  }
+
+  .dir-card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .dir-card-status {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .dir-card.active .dir-card-status {
+    color: var(--accent);
+  }
+
+  .dir-card-grip {
+    color: #c7c9ce;
+  }
+
+  .dir-card-grip svg {
+    width: 16px;
+    height: 16px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-mark">E</div>
+      <h1>Educatr Directory</h1>
+      <p>Enter the password to continue</p>
+      <form id="password-form">
+        <input
+          type="password"
+          id="password-input"
+          placeholder="Password"
+          autocomplete="off"
+          autofocus
+        />
+        <div id="login-error">Incorrect password. Try again.</div>
+        <button type="submit" id="unlock-btn">Unlock</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DIRECTORY SCREEN -->
+  <div id="directory-screen">
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-mark">E</div>
+        <div class="brand-name">educatr.co</div>
+      </div>
+      <div class="top-bar-right">
+        <div class="eyebrow">Internal · Multi-Client</div>
+        <div class="page-title">Educatr Directory</div>
+        <span class="logout-link" id="logout-link">Lock</span>
+      </div>
+    </div>
+
+    <div class="grid" id="card-grid"></div>
+  </div>
+
+<script>
+  const PASSWORD = "Helmbury123";
+  const SESSION_KEY = "educatr_directory_unlocked";
+
+  const ICONS = {
+    checklist: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h4"/><path d="M4 12h4"/><path d="M4 18h4"/><path d="M12 6h8"/><path d="M12 18h8"/><path d="m12 12 2 2 4-4"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>',
+    folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.086a1.5 1.5 0 0 1 1.06.44l1.415 1.413a1.5 1.5 0 0 0 1.06.44H19.5A1.5 1.5 0 0 1 21 8.79V17.5A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5Z"/></svg>',
+    invoice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14.5 3v4a1 1 0 0 0 1 1H19.5"/><path d="M9 12.5h6"/><path d="M9 16h6"/></svg>',
+    layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 4.5-8 4.5-8-4.5Z"/><path d="m4 12 8 4.5 8-4.5"/><path d="m4 16.5 8 4.5 8-4.5"/></svg>',
+    film: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9.5h18"/><path d="M3 14.5h18"/><path d="M8 5v4.5"/><path d="M8 14.5V19"/></svg>',
+  };
+
+  const cards = [
+    { title: "Daily Kill List", sub: "Today's needle-movers", icon: "checklist", url: "https://daily.helmbury.com" },
+    { title: "Tracking Dashboard", sub: "Revenue & activity metrics", icon: "chart", url: "https://tracking.helmbury.com" },
+    { title: "SOP Directory", sub: "Standard operating procedures", icon: "folder", url: "https://sop.helmbury.com" },
+    { title: "Accounting + Invoicing", sub: "Billing & invoice creation", icon: "invoice", url: "https://acc.helmbury.com" },
+    { title: "Prioritization Task Backlog", sub: "What's next, ranked", icon: "layers", url: "https://backlog.helmbury.com" },
+    { title: "Client Content Hub", sub: "Editor & thumbnail assets", icon: "film", url: "https://organic.helmbury.com" },
+  ];
+
+  const GRIP = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="7" cy="6" r="1.3"/><circle cx="12" cy="6" r="1.3"/><circle cx="17" cy="6" r="1.3"/><circle cx="7" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="17" cy="12" r="1.3"/><circle cx="7" cy="18" r="1.3"/><circle cx="12" cy="18" r="1.3"/><circle cx="17" cy="18" r="1.3"/></svg>';
+  const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>';
+
+  const grid = document.getElementById("card-grid");
+
+  cards.forEach(c => {
+    const el = document.createElement(c.url ? "a" : "div");
+    el.className = "dir-card " + (c.url ? "active" : "disabled");
+    if (c.url) {
+      el.href = c.url;
+      el.target = "_blank";
+      el.rel = "noopener noreferrer";
+    }
+
+    el.innerHTML = `
+      <div class="dir-card-top">
+        <div class="dir-card-title">${c.title}</div>
+        <div class="dir-card-icon">${ICONS[c.icon]}</div>
+      </div>
+      <div class="dir-card-sub">${c.sub}</div>
+      <div class="dir-card-foot">
+        <span class="dir-card-status">${c.url ? "Live" : "Coming soon"}</span>
+        <span class="dir-card-grip">${c.url ? ARROW : GRIP}</span>
+      </div>
+    `;
+
+    grid.appendChild(el);
+  });
+
+  const loginScreen = document.getElementById("login-screen");
+  const directoryScreen = document.getElementById("directory-screen");
+  const form = document.getElementById("password-form");
+  const input = document.getElementById("password-input");
+  const errorMsg = document.getElementById("login-error");
+  const logoutLink = document.getElementById("logout-link");
+
+  function showDirectory() {
+    loginScreen.style.display = "none";
+    directoryScreen.style.display = "block";
+  }
+
+  function showLogin() {
+    directoryScreen.style.display = "none";
+    loginScreen.style.display = "flex";
+    input.value = "";
+    setTimeout(() => input.focus(), 0);
+  }
+
+  if (sessionStorage.getItem(SESSION_KEY) === "true") {
+    showDirectory();
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, "true");
+      errorMsg.classList.remove("show");
+      showDirectory();
+    } else {
+      errorMsg.classList.add("show");
+      input.value = "";
+      input.focus();
+    }
+  });
+
+  logoutLink.addEventListener("click", () => {
+    sessionStorage.removeItem(SESSION_KEY);
+    showLogin();
+  });
+</script>
+
+</body>
+</html>
